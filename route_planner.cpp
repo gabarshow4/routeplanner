@@ -41,6 +41,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     neighbor->g_value = current_node->g_value + current_node->distance(*neighbor);
     open_list.push_back(neighbor);
     neighbor->visited = true;
+  }
 
 }
 
@@ -51,6 +52,12 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Create a pointer to the node in the list with the lowest sum.
 // - Remove that node from the open_list.
 // - Return the pointer.
+bool Compare(const RouteModel::Node *p,const RouteModel::Node *q){
+  float f1 = p->g_value + p->h_value;
+  float f2 = q->g_value + q->h_value;
+  return f1 > f2;
+}
+
 
 RouteModel::Node *RoutePlanner::NextNode() {
     std::sort(open_list.begin(),open_list.end(),Compare);
